@@ -56,8 +56,11 @@ The model should have an architecture as defined above in the problem statement.
 The CIFAR10 dataset consists of 60,000 32x32 color training images and 10,000 test images, labeled into 10 classes. The 10 classes represent airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. The dataset is divided into 50,000 training images and 10,000 validation images.
 ### 3. LRFinder
 The below code is used to find the `max_lr`. From the results `max_lr is coming to be 5.34E-3`
+
 <img width="656" alt="Screenshot 2023-07-21 at 10 21 30 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/63f2bd45-7584-488d-a5dd-d46e7d87e18c">
-This value is set in the OneCycleLR scheduler
+
+This 5.4e-3 value is set as `max_lr` in the OneCycleLR scheduler
+
 <img width="1077" alt="Screenshot 2023-07-21 at 10 23 12 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/3fceb75a-48fb-4693-aaff-f8a9006ce2b5">
 
 ## Concepts discussed in this Session
@@ -86,7 +89,7 @@ This value is set in the OneCycleLR scheduler
 
 ## 📈 Results
 
-The model was trained for 24 epochs and achieved an accuracy of 91.81% on the test set. The total number of parameters in the model was under 6573k. The training logs, as well as the output of the torch summary, are included in the notebook.
+The model was trained for 24 epochs and achieved an accuracy of 91.51% on the test set. The total number of parameters in the model was under 6573k. The training logs, as well as the output of the torch summary, are included in the notebook.
 
 Training accuracy: 94.486 %
 Test accuracy: 91.51 %
