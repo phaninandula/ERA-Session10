@@ -1,68 +1,99 @@
-# 🌐 ERA1 Session 9 Assignment 🌐
+# 🌐 ERA1 Session 10 Assignment 🌐
 
 ## 📌 Table of Contents
 
 1. [Problem Statement](#problem-statement)
-2. [Introduction](#introduction)
-3. [Model Architecture](#model-architecture)
-4. [Data Augmentation](#data-augmentation)
+2. [Solution](#Solution)
+3. [Concepts discussed in this Session](#Concepts discussed in this Session)
+4. [Training Status](#Training Status)
 5. [Results](#results)
 6. [Classwise Accuracy](#classwise-accuracy)
-7. [Misclassified Images](#misclassified-images)
+7. [References](#References)
 
 ## 🎯 Problem Statement
 
-1. Write a new network that   
-    1. has the architecture to C1C2C3C40 (No MaxPooling, but 3 convolutions, where the last one has a stride of 2 instead) (If you can figure out how to use Dilated kernels here instead of MP or strided convolution, then 200pts extra!)  
-    2. total RF must be more than 44  
-    3. one of the layers must use Depthwise Separable Convolution  
-    4. one of the layers must use Dilated Convolution  
-    5. use GAP (compulsory):- add FC after GAP to target #of classes (optional)  
-    6. use albumentation library and apply:  
-        1. horizontal flip  
-        2. shiftScaleRotate  
-        3. coarseDropout (max_holes = 1, max_height=16px, max_width=16, min_holes = 1, min_height=16px, min_width=16px, fill_value=(mean of your dataset), mask_fill_value = None)  
-    7. achieve 85% accuracy, as many epochs as you want. Total Params to be less than 200k.  
-    8. make sure you're following code-modularity (else 0 for full assignment) 
-    9. upload to Github  
-    10. Attempt S9-Assignment Solution.  
-    11. Questions in the Assignment QnA are:  
-        1. copy and paste your model code from your model.py file (full code) [125]  
-        2. copy paste output of torch summary [125]  
-        3. copy-paste the code where you implemented albumentation transformation for all three transformations [125]  
-        4. copy paste your training log (you must be running validation/text after each Epoch [125]  
-        5. Share the link for your README.md file. [200]  
+Write a custom link to an external site. ResNet architecture for CIFAR10 that has the following architecture:
 
-## 📚 Introduction
+PrepLayer - Conv 3x3 s1, p1) >> BN >> RELU [64k]  
+Layer1 -  
+X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [128k]  
+R1 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [128k]  
+Add(X, R1)  
+Layer 2 -  
+Conv 3x3 [256k]  
+MaxPooling2D  
+BN  
+ReLU  
+Layer 3 -  
+X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [512k]  
+R2 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [512k]  
+Add(X, R2)  
+MaxPooling with Kernel Size 4  
+FC Layer  
+SoftMax  
+Uses One Cycle Policy such that:  
+Total Epochs = 24  
+Max at Epoch = 5  
+LRMIN = FIND  
+LRMAX = FIND  
+NO Annihilation  
+Uses this transform -RandomCrop 32, 32 (after padding of 4) >> FlipLR >> Followed by CutOut(8, 8)  
+Batch size = 512  
+Use ADAM, and CrossEntropyLoss  
+Target Accuracy: 90% 
 
-The goal of this assignment is to design a Convolutional Neural Network (CNN) using PyTorch and the Albumentation library to achieve an accuracy of 85% on the CIFAR10 dataset. The code for this assignment is provided in a Jupyter Notebook, which can be found [here](./ERA1_S9_CIFAR10.ipynb).
+NO score if your code is not modular. Your collab must be importing your GitHub package, and then just running the model. I should be able to find the custom_resnet.py model in your GitHub repo that you'd be training.  
+Once done, proceed to answer the Assignment-Solution page.  
+
+## 📚 Solution
+
+The goal of this assignment is to design a Convolutional Neural Network (CNN) using PyTorch with certain requirements as below:
+### 1. Data Augmentation: 
+RandomCrop 32, 32 (after padding of 4) >> FlipLR >> Followed by CutOut(8, 8)  
+### 2. Model Architecture:
+The model should have an architecture as defined above in the problem statement. The objective is to use Residual blocks, OneCyclePolicy, Adam optimizer, cross-entropy loss, batch size of 512, and achieve 90% accuracy. The code for this assignment is provided in a Jupyter Notebook, which can be found [here](./ERA1_S10_CIFAR10_Resnet.ipynb).
 
 The CIFAR10 dataset consists of 60,000 32x32 color training images and 10,000 test images, labeled into 10 classes. The 10 classes represent airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. The dataset is divided into 50,000 training images and 10,000 validation images.
 
-## 🏗 Model Architecture
+## Concepts discussed in this Session
 
-The model for this project is based on the C1C2C3C40 architecture with several modifications. Instead of max pooling, the network consists of 3 convolutional layers with 3x3 filters and a stride of 2. The final layer utilizes global average pooling (GAP). One layer uses depthwise separable convolution, while another layer uses dilated convolution. The architecture leverages mobileNetV2, which combines expand, depthwise, and pointwise convolution with residual connections.
-Data Augmentation
+#### 'RESNETs - Deep Residual Learning For Image Recognition by He et.al'
+| What Problem Resnet is addressing?|           Background              |        Building blocks of ResNet  |
+|-----------------------------------|-----------------------------------|-----------------------------------|
+|<img width="569" alt="Screenshot 2023-07-21 at 5 30 46 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/80a220c9-931a-4e75-84dc-c19fc36e1572">|<img width="571" alt="Screenshot 2023-07-21 at 5 34 47 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/5cf96a34-9123-4388-9696-a0dd9d99e580">|<img width="507" alt="Screenshot 2023-07-21 at 5 40 06 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/6f328796-345a-49c1-9f04-11c123f3a5fa">|
 
-## 🎨 Data augmentation 
-Augmentation is performed using the Albumentations library. Three techniques are applied in the training data loader: horizontal flipping, shiftScaleRotate, and coarseDropout. No dropout was included in the model as these data augmentation methods provide similar regularization effects.
+| VGG-19 Vs Plain Network-34 layers Vs ResNet-34|    Results & Observations              |        Different types of shotcuts  |
+|-----------------------------------|-----------------------------------|-----------------------------------|
+|<img width="703" alt="Screenshot 2023-07-21 at 5 44 39 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/e2fb59cd-ec17-4664-8d13-edd1b9f73564">|<img width="600" alt="Screenshot 2023-07-21 at 5 45 10 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/f1c66c4f-b528-450f-acd3-f6601afa2088">|<img width="565" alt="Screenshot 2023-07-21 at 5 45 40 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/cf92b515-519e-43a8-ac60-cc59fd7e4f23">|
 
-Sample images,  
-![augmentation](./images/dataloader_preview.png)
+| Non-Bottleneck Vs Bottleneck Residual connection|    GAP reduces num of channels keeping width & height same              |        1x1 conv  |
+|-----------------------------------|-----------------------------------|-----------------------------------|
+|  <img width="568" alt="Screenshot 2023-07-21 at 5 45 57 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/36714576-ee0b-4fc4-b9ea-84108f59f397">| ![GAP](https://github.com/phaninandula/ERA-Session10/assets/30425824/d3c451e5-296d-4217-91e1-3cde3430f711)| ![1cross1](https://github.com/phaninandula/ERA-Session10/assets/30425824/ee708ad6-a9d0-419c-a204-bc9e62145e74)|
+
+### OneCycleLR 
+
+| LR range Test |    1CycleLR Calculation              |        Pytorch implementation  |
+|-----------------------------------|-----------------------------------|-----------------------------------|
+|![intro - 1cyclepolicy](https://github.com/phaninandula/ERA-Session10/assets/30425824/cc5eb2e6-6ba5-4218-8124-12f8216cc940)| ![1cyclepolicy calc](https://github.com/phaninandula/ERA-Session10/assets/30425824/a50fce2f-de08-425b-b9f4-aa7da5dd73e8)| ![onecycle_pytorch](https://github.com/phaninandula/ERA-Session10/assets/30425824/897bafbf-9bfe-4382-8c34-c7b76b982959)|
+
+## Training Status (Logs)
+<img width="1242" alt="Screenshot 2023-07-21 at 6 17 19 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/a6745eca-4c10-41f6-aeef-4cd6bd192f19">
+
 
 ## 📈 Results
 
-The model was trained for 30 epochs and achieved an accuracy of 84.77% on the test set. The total number of parameters in the model was under 200k. The training logs, as well as the output of torchsummary, are included in this notebook.
+The model was trained for 24 epochs and achieved an accuracy of 91.81% on the test set. The total number of parameters in the model was under 6573k. The training logs, as well as the output of torch summary, are included in the notebook.
 
-Trainling accuracy: 81.246 %
-Test accuracy: 84.77 %
+Training accuracy: 93.17 %
+Test accuracy: 91.81 %
 
 ## 📊 Classwise Accuracy
 
-![classwise_accuracy](./images/classwise_accuracy.png)
+<img width="510" alt="Screenshot 2023-07-21 at 6 21 22 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/9880fc4f-95a1-4538-8ef3-801f2a0e99ab">
 
-## ❌ Misclassified Images
-
-Few Samples of misclassified images,  
-![misclassified](./images/misclassified_images.png)
+## References
+1. Deep Residual Learning for Image Recognition - He et.al 2015
+2. Cyclical Learning Rates for Training Neural Networks - L.N.Smith - 2015
+3. Super-Convergence: Very Fast Training of Neural Networks Using Large Learning Rates - L.N.Smith et.al 2018
+4. Acknowledge all the authors who helped me understand the concepts in Medium. Couldnt save the links.
 
