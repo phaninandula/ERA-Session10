@@ -85,14 +85,14 @@ This 5.4e-3 value is set as `max_lr` in the OneCycleLR scheduler
 |![intro - 1cyclepolicy](https://github.com/phaninandula/ERA-Session10/assets/30425824/cc5eb2e6-6ba5-4218-8124-12f8216cc940)| ![1cyclepolicy calc](https://github.com/phaninandula/ERA-Session10/assets/30425824/a50fce2f-de08-425b-b9f4-aa7da5dd73e8)| ![onecycle_pytorch](https://github.com/phaninandula/ERA-Session10/assets/30425824/897bafbf-9bfe-4382-8c34-c7b76b982959)|
 
 ## Training Status (Logs)
-<img width="1077" alt="Screenshot 2023-07-21 at 10 23 12 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/3c10c3fb-62c3-46f9-9258-92f918b1d64c">
+<img width="1240" alt="Screenshot 2023-07-21 at 10 24 09 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/b5cd1c2e-c44b-41a6-b929-98c9e1334096">
 
 ## 📈 Results
 
-The model was trained for 24 epochs and achieved an accuracy of 91.51% on the test set. The total number of parameters in the model was under 6573k. The training logs, as well as the output of the torch summary, are included in the notebook.
+The model was trained for `24 epochs` and achieved an accuracy of `91.51%` on the test set. The total number of parameters in the model was under 6573k. The training logs, as well as the output of the torch summary, are included in the notebook.
 
-Training accuracy: 94.486 %
-Test accuracy: 91.51 %
+Training accuracy: `94.486 %`
+Test accuracy: `91.51 %`
 
 ## 📊 Classwise Accuracy
 
