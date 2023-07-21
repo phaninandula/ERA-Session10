@@ -4,8 +4,8 @@
 
 1. [Problem Statement](#problem-statement)
 2. [Solution](#Solution)
-3. [Concepts discussed in this Session](#Concepts discussed in this Session)
-4. [Training Status](#Training Status)
+3. [Concepts discussed in this Session](#Concepts-discussed-in-this-Session)
+4. [Training Status](#Training-Status)
 5. [Results](#results)
 6. [Classwise Accuracy](#classwise-accuracy)
 7. [References](#References)
@@ -54,6 +54,11 @@ RandomCrop 32, 32 (after padding of 4) >> FlipLR >> Followed by CutOut(8, 8)
 The model should have an architecture as defined above in the problem statement. The objective is to use Residual blocks, OneCyclePolicy, Adam optimizer, cross-entropy loss, batch size of 512, and achieve 90% accuracy. The code for this assignment is provided in a Jupyter Notebook, which can be found [here](./ERA1_S10_CIFAR10_Resnet.ipynb).
 
 The CIFAR10 dataset consists of 60,000 32x32 color training images and 10,000 test images, labeled into 10 classes. The 10 classes represent airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. The dataset is divided into 50,000 training images and 10,000 validation images.
+### 3. LRFinder
+The below code is used to find the `max_lr`. From the results `max_lr is coming to be 5.34E-3`
+<img width="656" alt="Screenshot 2023-07-21 at 10 21 30 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/63f2bd45-7584-488d-a5dd-d46e7d87e18c">
+This value is set in the OneCycleLR scheduler
+<img width="1077" alt="Screenshot 2023-07-21 at 10 23 12 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/3fceb75a-48fb-4693-aaff-f8a9006ce2b5">
 
 ## Concepts discussed in this Session
 
@@ -77,23 +82,21 @@ The CIFAR10 dataset consists of 60,000 32x32 color training images and 10,000 te
 |![intro - 1cyclepolicy](https://github.com/phaninandula/ERA-Session10/assets/30425824/cc5eb2e6-6ba5-4218-8124-12f8216cc940)| ![1cyclepolicy calc](https://github.com/phaninandula/ERA-Session10/assets/30425824/a50fce2f-de08-425b-b9f4-aa7da5dd73e8)| ![onecycle_pytorch](https://github.com/phaninandula/ERA-Session10/assets/30425824/897bafbf-9bfe-4382-8c34-c7b76b982959)|
 
 ## Training Status (Logs)
-<img width="1242" alt="Screenshot 2023-07-21 at 6 17 19 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/a6745eca-4c10-41f6-aeef-4cd6bd192f19">
-
+<img width="1077" alt="Screenshot 2023-07-21 at 10 23 12 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/3c10c3fb-62c3-46f9-9258-92f918b1d64c">
 
 ## 📈 Results
 
-The model was trained for 24 epochs and achieved an accuracy of 91.81% on the test set. The total number of parameters in the model was under 6573k. The training logs, as well as the output of torch summary, are included in the notebook.
+The model was trained for 24 epochs and achieved an accuracy of 91.81% on the test set. The total number of parameters in the model was under 6573k. The training logs, as well as the output of the torch summary, are included in the notebook.
 
-Training accuracy: 93.17 %
-Test accuracy: 91.81 %
+Training accuracy: 94.486 %
+Test accuracy: 91.51 %
 
 ## 📊 Classwise Accuracy
 
-<img width="510" alt="Screenshot 2023-07-21 at 6 21 22 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/9880fc4f-95a1-4538-8ef3-801f2a0e99ab">
+<img width="523" alt="Screenshot 2023-07-21 at 10 26 34 PM" src="https://github.com/phaninandula/ERA-Session10/assets/30425824/ec865834-66ff-4419-9fff-23e4f114dde3">
 
 ## References
 1. Deep Residual Learning for Image Recognition - He et.al 2015
 2. Cyclical Learning Rates for Training Neural Networks - L.N.Smith - 2015
 3. Super-Convergence: Very Fast Training of Neural Networks Using Large Learning Rates - L.N.Smith et.al 2018
 4. Acknowledge all the authors who helped me understand the concepts in Medium. Couldnt save the links.
-
